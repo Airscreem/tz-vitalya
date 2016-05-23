@@ -1,0 +1,39 @@
+2) Создать аналог множественного наследования через паттерн Mixin. 
+Необходимо не изменяя классов Base и Displayable сделать так чтобы класс Component имел функциональность Base и Displayable. 
+Нельзя использовать прототипы.
+
+Пример:
+function Base (name) {
+ var self = this;
+ self.name = '';
+ self.toString = toString;
+
+ function toString() {
+   return self.name;
+ }
+}
+
+function Displayable () {
+ var self = this;
+ var display = true;
+
+ self.hide = hide;
+ self.show = show;
+ Object.defineProperties(self, {
+   hidden: {
+     get: function getHidden() { return !display; },
+   },
+ });
+
+ function hide() {
+   display = false;
+ }
+
+ function show() {
+   display = true;
+ }
+}
+
+function Component(name) {
+ // ваш код
+}
