@@ -1,7 +1,8 @@
 (function(){
 
   function CarouselController(array) {
-    var data = array;
+    var data = array,
+        flag = false;
 
     var pub = {
       interval: 500,
@@ -29,6 +30,14 @@
           if(count >= length) count = 0;
 
         }, this.interval);
+
+        this.nextSlide(count);
+        this.prevSlide(count);
+
+        if(flag) {
+          clearInterval(newCount);
+          flag = false;
+        }
       } else {
         this.nextSlide(count);
         this.prevSlide(count);
@@ -46,18 +55,18 @@
     }
 
     function nextSlide(count) {
+      flag = true;
       count++;
       next(count);
       return count;
     }
 
     function prevSlide(count) {
+      flag = true;
       count--;
       prev(count);
       return count;
     }
-
-
 
     function show(item) {
       item.style.opacity = '1';
