@@ -38,7 +38,7 @@
       setTimeout(function() {
         hide(data[i-1]);
         show(data[i]);
-      }, this.interval);
+      }, pub.interval);
     }
 
     function withoutInterval(i) {
