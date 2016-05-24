@@ -35,26 +35,26 @@
       }
     }
 
-    function next(i) {
-      hide(data[i-1]);
-      show(data[i]);
+    function next(count) {
+      hide(data[count-1]);
+      show(data[count]);
     }
 
-    function prev(i) {
-      hide(data[i+1]);
-      show(data[i]);
+    function prev(count) {
+      hide(data[count+1]);
+      show(data[count]);
     }
 
-    function nextSlide(i) {
-      i++;
-      next(i);
-      return i;
+    function nextSlide(count) {
+      count++;
+      next(count);
+      return count;
     }
 
-    function prevSlide(i) {
-      i--;
-      prev(i);
-      return i;
+    function prevSlide(count) {
+      count--;
+      prev(count);
+      return count;
     }
 
 
