@@ -7,8 +7,8 @@
       interval: 500,
       auto: false,
       init: init,
-      nextClick: nextClick,
-      prevClick: prevClick,
+      nextSlide: nextSlide,
+      prevSlide: prevSlide,
       addSlider: addSlider,
       removeSlider: removeSlider
     };
@@ -29,6 +29,9 @@
           if(count >= length) count = 0;
 
         }, this.interval);
+      } else {
+        this.nextSlide(count);
+        this.prevSlide(count);
       }
     }
 
@@ -42,12 +45,16 @@
       show(data[i]);
     }
 
-    function nextSlide() {
-
+    function nextSlide(i) {
+      i++;
+      next(i);
+      return i;
     }
 
-    function prevSlide() {
-      
+    function prevSlide(i) {
+      i--;
+      prev(i);
+      return i;
     }
 
 
