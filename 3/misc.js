@@ -80,12 +80,10 @@
       data.push(item);
     }
 
-    function removeSlider(start, end) {
-      if(end === 'undefined') end = 0;
+    function removeSlider(item) {
+      var index = data.indexOf(item);
 
-      if(start > data.length || start > end) return console.log('Вы не можете удалить, попробуйте ещё разок!!!');
-
-      data.splice(start, end);
+      if(index > -1) data.splice(index, 1);
     }
   }
 
