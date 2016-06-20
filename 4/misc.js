@@ -15,20 +15,16 @@
     return newContext;
   }
 
-  var Shape = {
-    Circle: function (param) {
-      var ctx = param.ctx;
+  var Shape = function(option) {
+    var self = this;
 
-      ctx.beginPath();
-      ctx.arc(150, 75, 50, 0, 2*Math.PI, false);
-      ctx.fillStyle = 'red';
-      ctx.fill();
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = 'red';
-      ctx.stroke();
-    },
-    Square: function (param) {
-      var ctx = param.ctx;
+    self.option = option;
+
+    self.Square = Square;
+    self.Triangle = Triangle;
+
+    function Square() {
+      var ctx = option.ctx;
 
       ctx.beginPath();
       ctx.rect(188, 50, 100, 100);
@@ -37,9 +33,10 @@
       ctx.lineWidth = 7;
       ctx.strokeStyle = 'black';
       ctx.stroke();
-    },
-    Triangle: function (param) {
-      var ctx = param.ctx;
+    }
+
+    function Triangle() {
+      var ctx = option.ctx;
 
       // Задаем свойства заливки и линий.
       ctx.fillStyle = '#00f';
@@ -62,25 +59,13 @@
     }
   }
 
-  function ShapeFactory(option) {
-    var self = this;
-
-    self.option = option;
-  }
-
-  ShapeFactory.prototype = {
-    makeCircle: function () { return new Shape.Circle(this.option); },
-    makeSquare: function () { return new Shape.Square(this.option); },
-    makeTrinagle: function () { return new Shape.Triangle(this.option); }
-  }
-
-  var factory = new ShapeFactory({
+  var shape = new Shape({
     size: 100,
     color: "red",
     ctx: ctx('test', '2d')
   });
 
-  factory.makeTrinagle();
+  shape.Square();
 
   //s.draw(mass, ctx('test', '2d'));
 })();
