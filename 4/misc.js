@@ -1,16 +1,12 @@
 (function() {
-  function Point(pos_x, pos_y, width, height) {
+  function Point(pos_x, pos_y) {
     if(pos_x === 'undefined') pos_x = 0;
     if(pos_y === 'undefined') pos_y = 0;
-    if(width === 'undefined') width = 1;
-    if(height === 'undefined') height = 1;
 
     var self = this;
 
     self.x = pos_x;
     self.y = pos_y;
-    self.width = width;
-    self.height = height;
   }
 
   function ctx(id, context) {
@@ -19,47 +15,73 @@
     return newContext;
   }
 
-  function Shape() {
-    var self = this;
+  var Shape = {
+    Circle: function (param) {
+      var ctx = param.ctx;
 
-    self.draw = draw;
+      ctx.beginPath();
+      ctx.arc(150, 75, 50, 0, 2*Math.PI, false);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'red';
+      ctx.stroke();
+    },
+    Square: function (param) {
+      var ctx = param.ctx;
+
+      ctx.beginPath();
+      ctx.rect(188, 50, 100, 100);
+      ctx.fillStyle = 'yellow';
+      ctx.fill();
+      ctx.lineWidth = 7;
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+    },
+    Triangle: function (param) {
+      var ctx = param.ctx;
+
+      // Задаем свойства заливки и линий.
+      ctx.fillStyle = '#00f';
+      ctx.strokeStyle = '#f00';
+      ctx.lineWidth = '#f00';
+
+      ctx.beginPath();
+      // Начинаем рисовать треугольник с верхней левой точки.
+      ctx.moveTo(10, 10); // перемещаемся к координатам (x,y)
+      ctx.lineTo(10, 10);
+      ctx.lineTo(10, 100);
+      ctx.lineTo(100, 10);
 
 
-    function draw(points, ctx) {
-      ctx.lineWidth = this.lineWidth || 1;
-
-
-      if(points.length > 0) {
-        points.forEach(function(item) {
-
-          switch(self.type) {
-            case 'fillRect':
-              ctx.fillStyle = this.color || 'blue';
-              ctx.fillRect(item.x, item.y, item.width, item.height);
-              break;
-
-            case 'strokeRect':
-              ctx.strokeStyle = this.color || 'blue';
-              ctx.strokeRect(item.x, item.y, item.width, item.height);
-              break;
-
-            case 'clearRect':
-              ctx.clearRect(item.x, item.y, item.width, item.height);
-              break;
-
-            default:
-              ctx.fillStyle = this.color || 'blue';
-              ctx.fillRect(item.x, item.y, item.width, item.height);
-              break;
-          }
-        });
-      }
+      // Заполняем фигуру заливкой и применяем линии
+      // Фигура не будет отображена, пока не будет вызван хотя бы один из этих методов.
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
     }
   }
 
-  var s = new Shape();
-  var mass = [new Point(2,3,5,5), new Point(10,10,5,5)];
+  function ShapeFactory(option) {
+    var self = this;
 
-  s.draw(mass, ctx('test', '2d'));
+    self.option = option;
+  }
+
+  ShapeFactory.prototype = {
+    makeCircle: function () { return new Shape.Circle(this.option); },
+    makeSquare: function () { return new Shape.Square(this.option); },
+    makeTrinagle: function () { return new Shape.Triangle(this.option); }
+  }
+
+  var factory = new ShapeFactory({
+    size: 100,
+    color: "red",
+    ctx: ctx('test', '2d')
+  });
+
+  factory.makeTrinagle();
+
+  //s.draw(mass, ctx('test', '2d'));
 })();
 
