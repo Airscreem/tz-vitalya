@@ -15,58 +15,57 @@
     return newContext;
   }
 
-  var Shape = function(option) {
+  function Shape(points) {
     var self = this;
 
-    self.option = option;
+    self.arrayPoints = points;
+    self.draw = draw;
 
-    self.Square = Square;
-    self.Triangle = Triangle;
-
-    function Square() {
-      var ctx = option.ctx;
-
-      ctx.beginPath();
-      ctx.rect(188, 50, 100, 100);
-      ctx.fillStyle = 'yellow';
-      ctx.fill();
-      ctx.lineWidth = 7;
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
-    }
-
-    function Triangle() {
-      var ctx = option.ctx;
-
-      // Задаем свойства заливки и линий.
-      ctx.fillStyle = '#00f';
-      ctx.strokeStyle = '#f00';
-      ctx.lineWidth = '#f00';
-
-      ctx.beginPath();
-      // Начинаем рисовать треугольник с верхней левой точки.
-      ctx.moveTo(10, 10); // перемещаемся к координатам (x,y)
-      ctx.lineTo(10, 10);
-      ctx.lineTo(10, 100);
-      ctx.lineTo(100, 10);
-
-
-      // Заполняем фигуру заливкой и применяем линии
-      // Фигура не будет отображена, пока не будет вызван хотя бы один из этих методов.
-      ctx.fill();
-      ctx.stroke();
-      ctx.closePath();
+    function draw(ctx) {
+      //здесь мы рисуем любую фигуру по точками которые будут у нас в массиве полученны.
     }
   }
 
-  var shape = new Shape({
+  Shape.Square = function(params) {
+    var ctx = params.ctx,
+        type = params.type;
+
+    // Задаем свойства заливки и линий.
+    ctx.fillStyle = params.color;
+    ctx.strokeStyle = params.color;
+    ctx.lineWidth = params.lineWidth || 1;
+
+    ctx.beginPath();
+    // Начинаем рисовать треугольник с верхней левой точки.
+    ctx.moveTo(0, 0);
+    //а здесь мы рисуем по точкам которые мы передадим в params(образно)
+    ctx.lineTo(100, 0);
+    ctx.lineTo(100, 100);
+    ctx.lineTo(0, 100);
+    ctx.lineTo(0, 0);
+
+    // Заполняем фигуру заливкой и применяем линии
+    // Фигура не будет отображена, пока не будет вызван хотя бы один из этих методов.
+    switch(type) {
+      case 'fill':
+        ctx.fill(); break;
+      case 'stroke':
+        ctx.stroke(); break;
+      default:
+        ctx.fill(); ctx.stroke(); break;
+    }
+  }
+
+  Shape.Square({
+    lineWidth: 1,
     size: 100,
-    color: "red",
+    color: "blue",
+    type: 'fill',
     ctx: ctx('test', '2d')
   });
 
-  shape.Square();
-
-  //s.draw(mass, ctx('test', '2d'));
+  //а вот тут типа вызов просто рисования пообнрой фигуры по точкам.
+  //var s = new Shape([new Point(100, 200)], [new Point(100, 200)], [new Point(100, 200)]);
+  //s.draw(ctx('test', '2d'));
 })();
 
