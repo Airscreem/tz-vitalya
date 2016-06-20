@@ -13,24 +13,19 @@
     self.height = height;
   }
 
+  function ctx(id, context) {
+    var canvas = document.getElementById(id);
+    var newContext = canvas ? canvas.getContext(context) : document.createElement('canvas').id(id).getContext(context);
+    return newContext;
+  }
+
   function Shape() {
-    var pub = {
-      ctx: ctx,
-      draw: draw
-    };
+    var self = this;
 
-    return pub;
+    self.draw = draw;
 
-    function ctx(id, context) {
-      var canvas = document.getElementById(id);
-      var newContext = canvas ? canvas.getContext(context) : document.createElement('canvas').id(id).getContext(context);
-      return newContext;
-    }
 
     function draw(points, ctx) {
-      var self = this;
-      
-      ctx.fillStyle = this.color || 'blue';
       ctx.lineWidth = this.lineWidth || 1;
 
 
@@ -39,10 +34,12 @@
 
           switch(self.type) {
             case 'fillRect':
+              ctx.fillStyle = this.color || 'blue';
               ctx.fillRect(item.x, item.y, item.width, item.height);
               break;
 
             case 'strokeRect':
+              ctx.strokeStyle = this.color || 'blue';
               ctx.strokeRect(item.x, item.y, item.width, item.height);
               break;
 
@@ -51,6 +48,7 @@
               break;
 
             default:
+              ctx.fillStyle = this.color || 'blue';
               ctx.fillRect(item.x, item.y, item.width, item.height);
               break;
           }
@@ -62,8 +60,6 @@
   var s = new Shape();
   var mass = [new Point(2,3,5,5), new Point(10,10,5,5)];
 
-  s.color = 'red';
-
-  s.draw(mass, s.ctx('test', '2d'));
+  s.draw(mass, ctx('test', '2d'));
 })();
 
